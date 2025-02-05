@@ -62,4 +62,14 @@ const Login = async(req,res)=>{
     }
 };
 
-module.exports={SignUp,Login};
+const EditUser = async(req,res)=>{
+
+    const userID = req.params.id;
+const updatedUser = await Users.findOneAndUpdate({id:userID},req.body,{new:true});
+await updatedUser.save();
+console.log("User has been updated",updatedUser);
+res.json({success:true,updatedUser});
+
+};
+
+module.exports={SignUp,Login,EditUser};

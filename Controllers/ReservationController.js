@@ -31,7 +31,8 @@ const AddReservation = async(req,res)=>{
 };
 
 const DeleteReservation=async(req,res)=>{
-    await Reservation.findOneAndDelete({id:req.body.id});
+    
+    await Reservation.deleteOne({id:req.params.id})
     console.log("Reservation has been removed");
     res.json({success:true,status:"Reservstion deleted successiful"})
     
@@ -40,7 +41,7 @@ const DeleteReservation=async(req,res)=>{
 const GetAll=async(req,res)=>{
     let reservations = await Reservation.find({});
     console.log("All products have been fetched!");
-    res.send(reservations)
+    res.send(reservations);
     
 };
 

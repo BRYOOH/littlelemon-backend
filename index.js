@@ -6,23 +6,26 @@ const multer = require("multer");
 const cors = require("cors");
 const mongoose =require("mongoose")
 const path=require("path");
-const { SignUp, Login } = require("./Controllers/UsersController");
+const dotenv = require('dotenv');
+const { SignUp, Login, EditUser } = require("./Controllers/UsersController");
 const { AddReservation, DeleteReservation, GetAll } = require("./Controllers/ReservationController");
 
 app.use(express.json());
 app.use(cors());
+dotenv.config();
 
-mongoose.connect("mongodb+srv://brianmuchira001:Muriukis@cluster0.c8atalq.mongodb.net/Littlelemon").then(()=>console.log("MongoBD is running")).catch((error)=>console.log("MongoDB is not running"));
+mongoose.connect(process.env.DBKEY).then(()=>console.log("MongoDB is running")).catch((error)=>console.log("MongoDB is not running",error));
 
 app.get('/',(req,res)=>(
     res.send("Express app is running")
 ));
 
 app.post("/addReserve", AddReservation);
-app.delete("/removeReserve",DeleteReservation);
+app.delete("/removeReserve/:id",DeleteReservation);
 app.get("/getall",GetAll);
 
 app.post("/signup",SignUp);
+app.patch("/editUser/:id",EditUser);
 app.post("/login",Login);
 
 app.listen(port,(error)=>{
